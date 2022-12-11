@@ -1,3 +1,5 @@
+'use strict';
+
 const COLORS = [
     "black",
     "yellow",
@@ -32,7 +34,15 @@ const MONTHS = [
     "December"
 ];
 
-let = currentlyShownAmountOfCards = 8;
+const POSITIONS = {
+    BEFORE_END: "beforeEnd",
+    AFTER_BEGIN: "afterBegin"
+}
+
+const START_SHOWN_CARDS_AMOUNT = 8;
+const EVERY_LOAD_AMOUNT = 8;
+
+let currentlyShownAmountOfCards = 0;
 
 const currentDate = new Date();
 
@@ -71,46 +81,65 @@ function createCardsData() {
     return cardsData;
 }
 
-function constructFiltersData(cardsData) {
-    const filtersData = {
-        "all": cardsData.length,
-        "overdue": 0,
-        "today": 0,
-        "favorites": 0,
-        "repeating": 0,
-        "archive": 0
+function renderCards() {
+    const cardsWrapper = document.createDocumentFragment();
+
+    let loadCardsAmount = EVERY_LOAD_AMOUNT;
+
+    if (currentlyShownAmountOfCards + EVERY_LOAD_AMOUNT >= cardsData.length) {
+        loadCardsAmount = cardsData.length - currentlyShownAmountOfCards;
+        currentlyShownAmountOfCards = cardsData.length - loadCardsAmount;
     }
 
-    cardsData.forEach((cardData) => {
-        if (currentDate < cardData.dueDate) {
-            filtersData.overdue += 1;
-        } else if (currentDate.getDate() == cardData.dueDate.getDate() &&
-            currentDate.getMonth() == cardData.dueDate.getMonth() &&
-            currentDate.getFullYear() == cardData.dueDate.getFullYear()
-        ) {
-            filtersData.today += 1;
-        }
+    for (let i = currentlyShownAmountOfCards; i < currentlyShownAmountOfCards + loadCardsAmount; i++) {
+        const card = new CardComponent(cardsData[i]);
 
-        if (cardData.isFavorite) {
-            filtersData.favorites += 1;
-        }
+        cardsWrapper.append(card.getELement());
+    }
 
-        if (isCardRepeated(cardData)) {
-            filtersData.repeating += 1;
-        }
+    currentlyShownAmountOfCards += loadCardsAmount;
 
-        if (cardData.isArchived) {
-            filtersData.archive += 1;
-        }
-    })
+    const btn = document.querySelector(".load-more");
 
-    return filtersData;
+    if (currentlyShownAmountOfCards >= cardsData.length) {
+        btn.classList.add("visually-hidden");
+    }
+
+    return cardsWrapper;
+}
+
+function renderTaskBoard() {
+    const taskBoard = new TaskBoardComponent();
+    render(document.querySelector(".board"), taskBoard.getElement(), "beforeEnd");
+
+    const loadMore = new LoadMoreComponent();
+
+    function loadButtonClickHandler(evt) {
+        evt.preventDefault();
+
+        render(document.querySelector(".board__tasks"), renderCards(), "beforeEnd");
+    }
+
+    render(document.querySelector('.board'), loadMore.getELement(), "beforeEnd");
+    loadMore.recieveElement().addEventListener("click", loadButtonClickHandler);
+
+    render(taskBoard._element, renderCards(), "beforeEnd");
 }
 
 const cardsData = createCardsData();
-const filtersData = constructFiltersData(cardsData);
 
-drawMenu();
-drawFilters(filtersData);
-drawSort();
-drawTasksBoard(cardsData);
+const menu = new MenuComponent();
+render(document.querySelector(".main__control"), menu.getELement(), "afterBegin");
+
+const filters = new FiltersComponent(cardsData);
+render(document.querySelector(".main__filter"), filters.getELement(), "afterBegin");
+
+const sort = new SortComponent();
+render(document.querySelector(".board"), sort.getELement(), "afterBegin");
+
+renderTaskBoard();
+
+// drawMenu();
+// drawFilters(filtersData);
+// drawSort();
+// drawTasksBoard(cardsData);

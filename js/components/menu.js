@@ -1,9 +1,10 @@
-function drawMenu() {
-    const parent = document.querySelector(".main__control");
+class MenuComponent {
+    constructor() {
+        this._element = null;
+    }
 
-    function getElementMarkup() {
+    getTemplate() {
         return `
-            <h1 class="control__title">TASKMANAGER</h1>
             <section class="control__btn-wrap">
             <input
                 type="radio"
@@ -34,5 +35,13 @@ function drawMenu() {
         `
     }
 
-    insertMarkup(parent, getElementMarkup());
+    getELement() {
+        this._element = createElement(this.getTemplate());
+
+        return this._element;
+    }
+
+    removeElement() {
+        this._element = null;
+    }
 }
