@@ -17,10 +17,6 @@ class TaskBoardComponent {
         return this._element;
     }
 
-    recieveElement() {
-        return this._element;
-    }
-
     removeElement() {
         this._element = null
     }

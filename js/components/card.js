@@ -1,27 +1,3 @@
-// function getCardsMarkup(cardsData) {
-//     const cards = [];
-
-//     function createCard(cardData) {
-
-
-//         function getElementMarkup() {
-//             return ``
-//         }
-
-//         return getElementMarkup();
-//     }
-
-//     for (let i = 0; i < currentlyShownAmountOfCards; i++) {
-//         cards.push(createCard(cardsData[i]));
-//     }
-
-//     function getElementMarkup() {
-//         return cards.join(" ");
-//     }
-
-//     return getElementMarkup();
-// }
-
 class CardComponent {
     constructor(data) {
         this.cardData = data;
