@@ -1,8 +1,8 @@
-class CardEditComponent {
+class CardEditComponent extends AbstractComponent {
     constructor(data) {
-        this.data = data;
+        super();
 
-        this._element = null
+        this.data = data;
     }
 
     getTemplate() {
@@ -215,15 +215,5 @@ class CardEditComponent {
             </form>
         </article>
         `
-    }
-
-    getElement() {
-        this._element = createElement(this.getTemplate());
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }

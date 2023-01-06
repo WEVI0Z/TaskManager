@@ -97,7 +97,7 @@ function renderTaskBoard() {
     
         function appendCard(wrapper, cardData) {
             const card = new CardComponent(cardData);
-            const cardElement = card.getELement();
+            const cardElement = card.getElement();
             const editBtn = cardElement.querySelector(".card__btn--edit");
     
             function editClickButtonHandler() {
@@ -146,8 +146,8 @@ function renderTaskBoard() {
             render(document.querySelector(".board__tasks"), getCards(), "beforeEnd");
         }
     
-        render(document.querySelector('.board'), loadMore.getELement(), "beforeEnd");
-        loadMore.recieveElement().addEventListener("click", loadButtonClickHandler);
+        render(document.querySelector('.board'), loadMore.getElement(), "beforeEnd");
+        loadMore.getElement().addEventListener("click", loadButtonClickHandler);
     
         render(taskBoardElement, getCards(), "beforeEnd");
     } 
@@ -158,12 +158,12 @@ function renderTaskBoard() {
 const cardsData = createCardsData();
 
 const menu = new MenuComponent();
-render(document.querySelector(".main__control"), menu.getELement(), "afterBegin");
+render(document.querySelector(".main__control"), menu.getElement(), "afterBegin");
 
 const filters = new FiltersComponent(cardsData);
-render(document.querySelector(".main__filter"), filters.getELement(), "afterBegin");
+render(document.querySelector(".main__filter"), filters.getElement(), "afterBegin");
 
 const sort = new SortComponent();
-render(document.querySelector(".board"), sort.getELement(), "afterBegin");
+render(document.querySelector(".board"), sort.getElement(), "afterBegin");
 
 renderTaskBoard();

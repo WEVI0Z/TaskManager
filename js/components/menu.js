@@ -1,5 +1,7 @@
-class MenuComponent {
+class MenuComponent extends AbstractComponent {
     constructor() {
+        super();
+
         this._element = null;
     }
 
@@ -33,15 +35,5 @@ class MenuComponent {
             </label>
             </section>
         `
-    }
-
-    getELement() {
-        this._element = createElement(this.getTemplate());
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }

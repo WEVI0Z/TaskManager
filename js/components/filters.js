@@ -1,5 +1,7 @@
-class FiltersComponent {
+class FiltersComponent extends AbstractComponent {
     constructor(data) {
+        super();
+
         this.data = data;
         this.filtersData = {
             all: 0,
@@ -110,15 +112,5 @@ class FiltersComponent {
             >
         </section>
         `
-    }
-
-    getELement() {
-        this._element = createElement(this.getTemplate());
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }

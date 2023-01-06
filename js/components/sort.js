@@ -1,5 +1,7 @@
-class SortComponent {
+class SortComponent extends AbstractComponent {
     constructor() {
+        super();
+
         this._element = null;
     }
 
@@ -11,15 +13,5 @@ class SortComponent {
             <a href="#" class="board__filter" data-sort-type="date-down">SORT BY DATE down</a>
         </div>
         `
-    }
-
-    getELement() {
-        this._element = createElement(this.getTemplate());
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }

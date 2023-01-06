@@ -1,8 +1,8 @@
-class CardComponent {
+class CardComponent extends AbstractComponent {
     constructor(data) {
-        this.cardData = data;
+      super();  
 
-        this._element = null;
+      this.cardData = data;
     }
 
     getTemplate() {
@@ -53,15 +53,5 @@ class CardComponent {
           </div>
         </article>
         `
-    }
-
-    getELement() {
-        this._element = createElement(this.getTemplate());
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
