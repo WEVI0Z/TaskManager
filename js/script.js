@@ -42,8 +42,6 @@ const POSITIONS = {
 const START_SHOWN_CARDS_AMOUNT = 8;
 const EVERY_LOAD_AMOUNT = 8;
 
-let currentlyShownAmountOfCards = 0;
-
 const currentDate = new Date();
 
 function createCardsData() {
@@ -81,89 +79,13 @@ function createCardsData() {
     return cardsData;
 }
 
-function renderTaskBoard() {
-    const taskBoard = new TaskBoardComponent();
-    const taskBoardElement = taskBoard.getElement();
-
-    function getCards() {
-        const cardsWrapper = document.createDocumentFragment();
-    
-        let loadCardsAmount = EVERY_LOAD_AMOUNT;
-    
-        if (currentlyShownAmountOfCards + EVERY_LOAD_AMOUNT >= cardsData.length) {
-            loadCardsAmount = cardsData.length - currentlyShownAmountOfCards;
-            currentlyShownAmountOfCards = cardsData.length - loadCardsAmount;
-        }
-    
-        function appendCard(wrapper, cardData) {
-            const card = new CardComponent(cardData);
-            const cardElement = card.getElement();
-            const editBtn = cardElement.querySelector(".card__btn--edit");
-    
-            function editClickButtonHandler() {
-                removeCardEventListeners();
-
-                const editCard = new CardEditComponent(cardData);
-                taskBoardElement.replaceChild(editCard.getElement(), cardElement);
-            }
-    
-            function addCardEventListeners() {
-                editBtn.addEventListener("click", editClickButtonHandler);
-            }
-    
-            function removeCardEventListeners() {
-                editBtn.removeEventListener("click", editClickButtonHandler);
-            }
-    
-            addCardEventListeners();
-    
-            wrapper.append(cardElement);
-        }
-    
-        for (let i = currentlyShownAmountOfCards; i < currentlyShownAmountOfCards + loadCardsAmount; i++) {
-            appendCard(cardsWrapper, cardsData[i]);
-        }
-    
-        currentlyShownAmountOfCards += loadCardsAmount;
-    
-        const btn = document.querySelector(".load-more");
-    
-        if (currentlyShownAmountOfCards >= cardsData.length) {
-            btn.classList.add("visually-hidden");
-        }
-    
-        return cardsWrapper;
-    }
-    
-    function getTaskBoard() {
-        render(document.querySelector(".board"), taskBoardElement, "beforeEnd");
-    
-        const loadMore = new LoadMoreComponent();
-    
-        function loadButtonClickHandler(evt) {
-            evt.preventDefault();
-    
-            render(document.querySelector(".board__tasks"), getCards(), "beforeEnd");
-        }
-    
-        render(document.querySelector('.board'), loadMore.getElement(), "beforeEnd");
-        loadMore.getElement().addEventListener("click", loadButtonClickHandler);
-    
-        render(taskBoardElement, getCards(), "beforeEnd");
-    } 
-    
-    getTaskBoard();
-}
-
 const cardsData = createCardsData();
+
+const boardController = new BoardController(document.querySelector(".board"));
+boardController.render(cardsData);
 
 const menu = new MenuComponent();
 render(document.querySelector(".main__control"), menu.getElement(), "afterBegin");
 
 const filters = new FiltersComponent(cardsData);
 render(document.querySelector(".main__filter"), filters.getElement(), "afterBegin");
-
-const sort = new SortComponent();
-render(document.querySelector(".board"), sort.getElement(), "afterBegin");
-
-renderTaskBoard();

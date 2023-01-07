@@ -10,4 +10,8 @@ class LoadMoreComponent extends AbstractComponent {
             <button class="load-more" type="button">load more</button>
         `
     }
+
+    setClickHandler(event) {
+        this.getElement().addEventListener("click", event);
+    }
 }

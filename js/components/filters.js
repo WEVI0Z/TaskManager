@@ -40,8 +40,6 @@ class FiltersComponent extends AbstractComponent {
                 this.filtersData.archive += 1;
             }
         })
-
-        console.log(this.filtersData)
     }
 
     getTemplate() {
